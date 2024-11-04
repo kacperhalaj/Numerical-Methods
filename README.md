@@ -7,7 +7,7 @@ Implementacjom algorytmów matematycznych w języku Python.
 #### [Lista zadań](https://github.com/kacperhalaj/Numerical-Methods/blob/main/ZADANIA.md)
 
 #### ZADANIA
-- [horner wyliczanie wartosci w danym punkcie](https://github.com/kacperhalaj/Numerical-Methods/blob/main/1-schematHornera.py)
+- [Horner wyliczanie wartosci w danym punkcie](https://github.com/kacperhalaj/Numerical-Methods/blob/main/1-schematHornera.py)
     - kod:
 
 ```python
@@ -24,7 +24,7 @@ x = 3  # Punkt
 wartosc = horner(lista, x)
 print(f"Wartość wielomianu w punkcie {x}: {wartosc}")
 ```
-- [horner dzielenie wielomianu](https://github.com/kacperhalaj/Numerical-Methods/blob/main/2-dzielenieWielomianu.py)
+- [Horner dzielenie wielomianu](https://github.com/kacperhalaj/Numerical-Methods/blob/main/2-dzielenieWielomianu.py)
   - kod:
 
 ```python
@@ -51,7 +51,7 @@ print(f"Współczynniki ilorazu: {iloraz}")
 print(f"Reszta: {reszta}")
 ```
 
- - [bisekcja](https://github.com/kacperhalaj/Numerical-Methods/blob/main/3-metodaBisekcji.py)
+ - [Metoda Bisekcji](https://github.com/kacperhalaj/Numerical-Methods/blob/main/3-metodaBisekcji.py)
     - kod:
 
 ```python
@@ -85,7 +85,7 @@ if wynik is not None:
 
 ```
 
- - [Metoda stycznych](https://github.com/kacperhalaj/Numerical-Methods/blob/main/4-metodaStycznych.py)
+ - [Metoda Stycznych](https://github.com/kacperhalaj/Numerical-Methods/blob/main/4-metodaStycznych.py)
     - kod:
  
  ```python
@@ -126,7 +126,7 @@ wynik = metodaStycznych(x0, epsilon)
 if wynik is not None:
     print(f"Przybliżona wartość pierwiastka: {wynik}")
 ```
-- [Metoda siecznych](https://github.com/kacperhalaj/Numerical-Methods/blob/main/5-metodaSiecznych.py)
+- [Metoda Siecznych](https://github.com/kacperhalaj/Numerical-Methods/blob/main/5-metodaSiecznych.py)
    - cod:
 
 ```python
@@ -165,7 +165,7 @@ if wynik is not None:
     print(f"Przybliżona wartość pierwiastka: {wynik}")
 
 ```
-- [Metoda falsi](https://github.com/kacperhalaj/Numerical-Methods/blob/main/6-metodaFalsi.py)
+- [Metoda Falsi](https://github.com/kacperhalaj/Numerical-Methods/blob/main/6-metodaFalsi.py)
   - kod:
 
 ```python
