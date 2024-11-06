@@ -206,4 +206,92 @@ if wynik is not None:
     print(f"Przybliżona wartość pierwiastka: {wynik}")
 
 ```
+- [Metoda Trapezów](https://github.com/kacperhalaj/Numerical-Methods/blob/main/7-metodaTrapezow.py)
+  - kod:
+
+```python
+import math
+
+def f(x):
+    return math.sqrt(1 + x)
+
+def metodaTrapezow(a, b, h):
+    n = int((b - a) / h) #liczba przedzialow
+    wynik = f(a) + f(b) #wyliczenie wartosci na krancach przedzialow
+    for i in range(1, n):   #petla do sumowania srodkowych przedzialow
+        wynik += 2 * f(a + i * h) #wyliczmay wartosci i podwajamy srodkowe
+    wynik *= h / 2
+    return wynik
+
+a = 0
+b = 1
+h = 1/3
+
+wynik = metodaTrapezow(a, b, h)
+print(f"Wartość całki metodą trapezów: {wynik}")
+
+```
+- [Metoda Prostokątów](https://github.com/kacperhalaj/Numerical-Methods/blob/main/8-metodaProstokatow.py)
+  - kod:
+
+```python
+import math
+
+def f(x):
+    return 0.06*x**2+2
+
+def metodaProstokatow(a, b, n):
+    h = (b - a) / n  # szerokość podprzedziału
+    wynik = 0
+    for i in range(n):
+        wynik += f(a + i * h)  # używamy lewej wartości funkcji w każdym podprzedziale
+    wynik *= h
+    return wynik
+
+a = 1 
+b = 4 
+n = 1000  # liczba podprzedziałów im wiecej tym dokladniej
+
+wynik = metodaProstokatow(a, b, n)
+print(f"Wartość całki metodą prostokątów: {wynik}")
+
+```
+- [Metoda Paraboli](https://github.com/kacperhalaj/Numerical-Methods/blob/main/8-metodaProstokatow.py)
+  - kod:
+
+```python
+import math
+
+def f(x):
+    return math.sin(x) * math.exp(-3 * x) + x**3
+
+def metodaParaboli(a, b, n):
+    h = (b - a) / n
+    wynik = f(a) + f(b)
+    for i in range(1, n, 2):
+        wynik += 4 * f(a + i * h)
+    for i in range(2, n - 1, 2):
+        wynik += 2 * f(a + i * h)
+    wynik *= h / 3
+    return wynik
+
+a = -3
+b = 1
+n = 100 
+wynik = metodaParaboli(a, b, n)
+print(f"Wartość całki metodą Simpsona: {wynik}")
+
+# Błąd można oszacować jako |E| ≈ K * (b - a) * h^4 / 180
+# gdzie K to maksimum wartości czwartej pochodnej funkcji na przedziale [a, b].
+
+def czwartapochodna(x):
+    # Przybliżenie czwartej pochodnej funkcji f(x) = sin(x) * e^(-3x) + x^3
+    return 81 * math.sin(x) * math.exp(-3 * x) - 54 * math.cos(x) * math.exp(-3 * x)
+
+# Szacujemy maksymalną wartość czwartej pochodnej na przedziale
+max_K = max(abs(czwartapochodna(a)), abs(czwartapochodna(b)))
+blad = max_K * (b - a) * (h ** 4) / 180
+print(f"Oszacowany błąd maksymalny: {blad}")
+
+```
 
