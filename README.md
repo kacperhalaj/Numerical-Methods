@@ -294,4 +294,58 @@ blad = max_K * (b - a) * (h ** 4) / 180
 print(f"Oszacowany błąd maksymalny: {blad}")
 
 ```
+- [Interpolacja Lagrange'a](https://github.com/kacperhalaj/Numerical-Methods/blob/main/10-metodaInterpolacjaLagrange'a.py)
+  - kod:
 
+```python
+import sympy as sp
+
+x = sp.symbols('x')
+
+x_vals = [1, 2, 3]
+y_vals = [5, 7, 6]
+
+# Funkcje Lagrange'a
+def lagrange_basis(x_vals, i, x):
+    result = 1
+    for j in range(len(x_vals)):
+        if j != i:
+            result *= (x - x_vals[j]) / (x_vals[i] - x_vals[j])
+    return result
+
+# Wielomian interpolacyjny Lagrange'a
+L = 0
+for i in range(len(x_vals)):
+    L += y_vals[i] * lagrange_basis(x_vals, i, x)
+
+L = sp.simplify(L)
+print(f"Wielomian interpolacyjny Lagrange'a: {L}")
+
+```
+- [Aproksymacja](https://github.com/kacperhalaj/Numerical-Methods/blob/main/12-metodaAproksymacja.py)
+  - kod:
+
+```python
+import numpy as np
+
+x_values = np.array([0, 3, 6, 9, 12])  # Współrzędne x
+y_values = np.array([4, 5, 4, 1, 2])   # Współrzędne y
+m = 3  # Stopień wielomianu
+
+# Tworzenie macierzy Vandermonde'a (do aproksymacji)
+A = np.vander(x_values, m + 1, increasing=True)
+
+# Rozwiązywanie układu równań A * a = y
+coefficients = np.linalg.lstsq(A, y_values, rcond=None)[0]
+
+# Wypisanie wyników
+print("Współczynniki wielomianu aproksymującego (od a_0 do a_3):")
+for i, coeff in enumerate(coefficients):
+    print(f"a_{i} = {coeff:.4f}")
+
+# Wyświetlenie funkcji aproksymującej
+print("\nFunkcja aproksymująca:")
+print("P(x) =", " + ".join(f"{coeff:.4f}*x^{i}" for i, coeff in enumerate(coefficients)))
+
+
+```
