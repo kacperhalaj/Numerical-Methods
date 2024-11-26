@@ -1,4 +1,4 @@
-# Numerical-Methods  (Metody Numeryczne)
+# Numerical-Methods   (Metody Numeryczne)
 
 Implementacjom algorytmów matematycznych w języku Python.
 
