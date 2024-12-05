@@ -139,8 +139,50 @@ root = newton_method(x0, epsilon)
 if root is not None:
     print(f"Przybliżona wartość pierwiastka: {root}")
 ```
+ - [Metoda Stycznych]
+    - kod:
+ 
+ ```python
+import math
+
+E = 0.01
+dolny_p = math.pi / 2  # Dolny punkt przedziału
+gorny_p = math.pi  # Górny punkt przedziału
+
+def f(x):
+    return math.sin(x) - (x / 2)
+
+def pochodna_f(x):
+    return math.cos(x) - 0.5
+
+def pochodna2_f(x):
+    return -math.sin(x)
+
+def wylicz_kolejny_x(x):
+    return x - (f(x) / pochodna_f(x))
+
+# Wybór punktu początkowego na podstawie warunków
+if f(dolny_p) * pochodna2_f(dolny_p) > 0:
+    x0 = dolny_p
+elif f(gorny_p) * pochodna2_f(gorny_p) > 0:
+    x0 = gorny_p
+else:
+    print("Brak odpowiednich punktów startowych.")
+    x0 = None
+
+
+if x0 is not None:
+    xn = wylicz_kolejny_x(x0)
+
+    while abs(xn - x0) >= E:
+        x0 = xn
+        xn = wylicz_kolejny_x(x0)
+
+    print(f"Przybliżona wartość pierwiastka: {xn}")
+
+```
 - [Metoda Siecznych](https://github.com/kacperhalaj/Numerical-Methods/blob/main/5-metodaSiecznych.py)
-   - cod:
+   - kod:
 
 ```python
 def f(x):
@@ -176,6 +218,35 @@ epsilon = 0.0001  # Dokładność
 wynik = metodaSiecznych(x0, x1, epsilon)
 if wynik is not None:
     print(f"Przybliżona wartość pierwiastka: {wynik}")
+```
+
+- [Metoda Siecznych]
+   - kod:
+
+```python
+
+import math
+
+a = 1
+b = 2
+E = 0.0001
+
+def f(x):    
+    return x**3+x**2-3*x-3
+def wyliczX(xn,x):    
+    return xn-f(xn)*((xn-x)/(f(xn)-f(x)))
+
+x0 = a
+x1 = b
+
+if f(a)*f(b)<0:    
+    xn=wyliczX(x1,x0)    
+    while abs(f(xn))>E:        
+        xn=wyliczX(xn,x1)        
+        x1=wyliczX(xn,x1)
+
+print(xn) 
+
 
 ```
 - [Metoda Falsi](https://github.com/kacperhalaj/Numerical-Methods/blob/main/6-metodaFalsi.py)
