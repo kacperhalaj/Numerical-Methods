@@ -231,6 +231,50 @@ wynik = metodaTrapezow(a, b, h)
 print(f"Wartość całki metodą trapezów: {wynik}")
 
 ```
+- [Metoda Trapezów z wykorzystaniem bibloteki sympy]
+  - kod:
+
+```python
+
+import sympy as sp
+
+x = sp.symbols('x')
+f_expr = sp.sqrt(1 + x)
+
+def trapezoid(f_expr, a, b, h):
+    n = int((b - a) / h) 
+    result = f_expr.subs(x, a) + f_expr.subs(x, b)
+    for i in range(1, n):
+        result += 2 * f_expr.subs(x, a + i * h)
+    result *= h / 2 
+    return result
+
+def second_derivative(x_val):
+    f_prime = sp.diff(f_expr, x, 2)
+    return f_prime.subs(x, x_val)
+
+a = 0
+b = 1
+h = 1 / 3
+
+result = trapezoid(f_expr, a, b, h)
+result_num = result.evalf()
+
+print("Result: ", result_num)
+
+f2a = second_derivative(a)
+f2b = second_derivative(b)
+print(f"Second derivative at a = {a}: {f2a}")
+print(f"Second derivative at b = {b}: {f2b}")
+
+max_f2 = max(abs(f2a), abs(f2b))
+print(f"Maximum second derivative: {max_f2}")
+
+error = (b - a) * h**2 * max_f2 / 12
+print(f"Maximum error: {error}")
+
+```
+
 - [Metoda Prostokątów](https://github.com/kacperhalaj/Numerical-Methods/blob/main/8-metodaProstokatow.py)
   - kod:
 
@@ -254,6 +298,55 @@ n = 1000  # liczba podprzedziałów im wiecej tym dokladniej
 
 wynik = metodaProstokatow(a, b, n)
 print(f"Wartość całki metodą prostokątów: {wynik}")
+
+```
+- [Metoda Prostokątów z wykorzystaniem bibloteki sympy]
+  - kod:
+
+```python
+import sympy as sp
+
+# Definicja zmiennej i funkcji
+x = sp.symbols('x')
+f = 0.06 * x**2 + 2
+
+# Metoda prostokątów
+def metodaProstokatow(f, a, b, n):
+    h = (b - a) / n
+    wynik = 0
+    for i in range(n):
+        wynik += f.subs(x, a + i * h)
+    wynik *= h
+    return wynik
+
+# Obliczenie drugiej pochodnej (do oszacowania błędu)
+def druga_pochodna(f, xval):
+    fprime = sp.diff(f, x, 2)
+    return fprime.subs(x, xval)
+
+# Granice całkowania i liczba podziałów
+a = 1
+b = 4
+n = 1000  # Liczba przedziałów
+h = (b - a) / n
+
+# Obliczenie wartości całki metodą prostokątów
+wynik = metodaProstokatow(f, a, b, n)
+result = wynik.evalf()
+
+# Maksymalna wartość drugiej pochodnej w przedziale [a, b]
+f_druga = sp.diff(f, x, 2)
+druga_pochodna_max = max(abs(f_druga.subs(x, a)), abs(f_druga.subs(x, b)))
+
+# Oszacowanie maksymalnego błędu
+blad = ((b - a) * h**2 * druga_pochodna_max) / 24
+blad = blad.evalf()
+
+# Wyniki
+print(f"Wartość całki metodą prostokątów: {result}")
+print(f"Druga pochodna: {f_druga}")
+print(f"Oszacowany błąd maksymalny: {blad}")
+
 
 ```
 - [Metoda Paraboli](https://github.com/kacperhalaj/Numerical-Methods/blob/main/8-metodaProstokatow.py)
@@ -294,6 +387,44 @@ blad = max_K * (b - a) * (h ** 4) / 180
 print(f"Oszacowany błąd maksymalny: {blad}")
 
 ```
+- [Metoda Paraboli z wykorzystaniem bibloteki sympy]
+  - kod:
+
+```python
+import sympy as sp
+
+x = sp.symbols('x')
+f=sp.sin(x) * sp.exp(-3 * x) + x**3
+
+def metodaParaboli(f,a, b, n):
+    h = (b - a) / n
+    wynik = f.subs(x,a) + f.subs(x,b)
+    for i in range(1, n, 2):
+        wynik += 4 * f.subs(x,a + i * h)
+    for i in range(2, n - 1, 2):
+        wynik += 2 * f.subs(x,a + i * h)
+    wynik *= h / 3
+    return wynik
+
+def czwartapochodna(xval):
+    fprime=sp.diff(f,x,4)
+    return fprime.subs(x,xval)    
+
+a = -3
+b = 1
+n = 100 
+h = (b - a) / n
+
+wynik = metodaParaboli(f,a, b, n)
+result = wynik.evalf()
+
+print(f"Wartość całki metodą Simpsona: {result}")
+max_K = max(abs(czwartapochodna(a)), abs(czwartapochodna(b)))
+
+blad = max_K * (b - a) * (h ** 4) / 180
+print(f"Oszacowany błąd maksymalny: {blad.evalf()}")
+
+```
 - [Interpolacja Lagrange'a](https://github.com/kacperhalaj/Numerical-Methods/blob/main/10-metodaInterpolacjaLagrange'a.py)
   - kod:
 
@@ -320,6 +451,56 @@ for i in range(len(x_vals)):
 
 L = sp.simplify(L)
 print(f"Wielomian interpolacyjny Lagrange'a: {L}")
+
+```
+- [Interpolacja Newtona]
+  - kod:
+
+```python
+import sympy as sp
+
+# Definiowanie zmiennej x
+x = sp.symbols('x')
+
+# Wartości węzłów
+x_vals = [1, 2, 3]
+y_vals = [5, 7, 6]
+
+
+# Funkcja obliczająca różnice dzielone
+def divided_differences(x_vals, y_vals):
+    n = len(x_vals)
+    # Tworzenie macierzy różnic dzielonych
+    diffs = [[0] * n for _ in range(n)]
+
+    # Pierwsza kolumna to wartości funkcji w węzłach
+    for i in range(n):
+        diffs[i][0] = y_vals[i]
+
+    # Obliczanie różnic dzielonych
+    for j in range(1, n):
+        for i in range(n - j):
+            diffs[i][j] = (diffs[i + 1][j - 1] - diffs[i][j - 1]) / (x_vals[i + j] - x_vals[i])
+
+    return [diffs[i][i] for i in range(n)]  # Zwracamy główną przekątną (różnice dzielone)
+
+
+# Obliczenie różnic dzielonych
+coefficients = divided_differences(x_vals, y_vals)
+
+# Budowa wielomianu Newtona
+P = coefficients[0]
+for i in range(1, len(coefficients)):
+    term = coefficients[i]
+    for j in range(i):
+        term *= (x - x_vals[j])
+    P += term
+
+# Upraszczanie wyniku
+P = sp.simplify(P)
+
+# Wyświetlenie wyników
+print(f"Wielomian interpolacyjny Newtona: {P}")
 
 ```
 - [Aproksymacja](https://github.com/kacperhalaj/Numerical-Methods/blob/main/12-metodaAproksymacja.py)
